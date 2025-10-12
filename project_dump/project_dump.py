@@ -28,10 +28,9 @@ def get_files(path, file_endings=['.py', '.ipynb'], ignore=[]):
         for item_name in sorted(os.listdir(path)):
             new_path = os.path.join(path, item_name)
             result = get_files(new_path, file_endings, ignore)
-            if result is not None:  # Only add if not ignored
-                cache[item_name] = result
+            cache[item_name] = result
         # Return the dictionary only if it's not empty
-        return cache if cache else None
+        return cache
 
     # If it's a file, check its extension
     if os.path.splitext(path)[-1] in file_endings:
@@ -118,6 +117,9 @@ def main():
     args = parser.parse_args()
 
     src_path = args.source_dir
+    basename = os.path.basename(src_path)
+    if not basename:
+        basename = os.path.basename(os.getcwd())
 
     if not os.path.exists(src_path):
         print(f"Error: The source path '{src_path}' does not exist.")
