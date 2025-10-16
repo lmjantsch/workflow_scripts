@@ -11,12 +11,12 @@ from typing import List, Set, Tuple, Optional, Pattern
 
 RECIPES = {
     'default': {
-        'ignore': {'.git', '.DS_Store', '.venv', '.gitignore'},
+        'ignore': {'.git', '.DS_Store', '.venv', '.gitignore', '/project_dump.txt'},
         'exclude': {'.env'},
         'file_endings': {},
     },
     'python': {
-        'ignore': {'__pycache__', '.ipynb_checkpoints','.pytest_cache', '/project_dump.txt'},
+        'ignore': {'__pycache__', '.ipynb_checkpoints','.pytest_cache'},
         'exclude_content': {},
         'file_endings': {'.py', '.ipynb', '.md', '.toml', '.yaml', '.yml'},
     }
