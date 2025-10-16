@@ -188,15 +188,16 @@ def create_file_content_dump(root_dir: Path, rel_paths: List[Path]) -> str:
         """
         Creates a formatted heading string.
         """
-        h_str = f"#     {title}     #"
-        fill_str = "#" * len(h_str)
-        return f"\n\n{fill_str}\n{h_str}\n{fill_str}\n"
+        h_str = f"--- {title} ---"
+        return f"\n\n\n\n{h_str}\n"
 
     for rel_path in rel_paths:
         output_parts.append(heading(str(rel_path)))
         try:
             absolute_path = root_dir / rel_path
             content = absolute_path.read_text(encoding='utf-8', errors='ignore').strip()
+            if not content:
+                return ''
             output_parts.append(content)
         except Exception as e:
             output_parts.append(f"Error reading file {rel_path}: {e}")
