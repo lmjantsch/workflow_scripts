@@ -116,26 +116,25 @@ def discover_files(
         if any(p.search(str(current_relative_path)) for p in ignore_patterns):
             continue
         
-        for item_name in sorted(dirs + files):
+        for item_name in files:
             relative_item_path = current_relative_path / item_name
 
             # 1. Check against ignored patterns
             if any(p.search(str(relative_item_path)) for p in ignore_patterns):
                 continue
             
-            # 3. Process files
-            if relative_item_path.is_file():
-                # Check if the file content should be excluded
-                if any([p.search(str(relative_item_path)) for p in exclude_content_patterns]):
-                    excluded_content_paths.append(relative_item_path)
-                    continue
-
-                # Check for valid file endings
-                if relative_item_path.suffix in file_endings:
-                    included_paths.append(relative_item_path)
-                    continue
-
+            # 2. Check if the file content should be excluded
+            if any([p.search(str(relative_item_path)) for p in exclude_content_patterns]):
                 excluded_content_paths.append(relative_item_path)
+                continue
+
+            # 3. Check for valid file endings
+            if relative_item_path.suffix in file_endings:
+                included_paths.append(relative_item_path)
+                continue
+            
+            # 4. Add all other files to tree
+            excluded_content_paths.append(relative_item_path)
 
     return sorted(included_paths), sorted(excluded_content_paths)
 
